@@ -14,25 +14,17 @@ import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 class MainActivity : AppCompatActivity() {
 
     //Creamos una lista par referenciar los horóscopos
-    val horoscopeList: List<Horoscope> = listOf(
-        Horoscope("aries", R.string.horoscope_name_aries, R.string.horoscope_date_aries, R.drawable.aries_icon),
-        Horoscope("aries", R.string.horoscope_name_taurus, R.string.horoscope_date_taurus, R.drawable.taurus_icon),
-        Horoscope("aries", R.string.horoscope_name_gemini, R.string.horoscope_date_gemini, R.drawable.gemini_icon),
-        Horoscope("aries", R.string.horoscope_name_cancer, R.string.horoscope_date_cancer, R.drawable.cancer_icon),
-        Horoscope("aries", R.string.horoscope_name_leo, R.string.horoscope_date_leo, R.drawable.leo_icon),
-        Horoscope("aries", R.string.horoscope_name_virgo, R.string.horoscope_date_virgo, R.drawable.virgo_icon),
-        Horoscope("aries", R.string.horoscope_name_libra, R.string.horoscope_date_libra, R.drawable.libra_icon),
-        Horoscope("aries", R.string.horoscope_name_scorpio, R.string.horoscope_date_scorpio, R.drawable.scorpio_icon),
-        Horoscope("aries", R.string.horoscope_name_sagittarius, R.string.horoscope_date_sagittarius, R.drawable.sagittarius_icon),
-        Horoscope("aries", R.string.horoscope_name_capricorn, R.string.horoscope_date_capricorn, R.drawable.capricorn_icon),
-        Horoscope("aries", R.string.horoscope_name_aquarius, R.string.horoscope_date_aquarius, R.drawable.aquarius_icon),
-        Horoscope("aries", R.string.horoscope_name_pisces, R.string.horoscope_date_pisces, R.drawable.pisces_icon)
-    )
+
+    // Creamos la variable para acceder al horoscopeList de la clase HoroscopeProvider
+    lateinit var horoscopeList: List<Horoscope>
 
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Como ya tenemos la variable horoscopeList, la inicializamos
+        horoscopeList = HoroscopeProvider.findAll()
 
         recyclerView = findViewById(R.id.recyclerView)
 
@@ -44,11 +36,11 @@ class MainActivity : AppCompatActivity() {
         //recyclerView.layoutManager = GridLayoutManager(this, 2)
 
     }
+    // Esto nos llevará al la pantalla DEATIL a través del INTENT, en donde le pasaremos ésta clase y la
+    // clase DetailActivity
     fun navigateToDetail(horoscope: Horoscope) {
         val intent: Intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("HOROSCOPE_ID", horoscope.id)
-        intent.putExtra("HOROSCOPE_NAME", horoscope.name)
-        intent.putExtra("HOROSCOPE_LOGO", horoscope.logo)
+        intent.putExtra(DetailActivity.EXTRA_HOROSCOPE_ID, horoscope.id)
         startActivity(intent)
     }
 }

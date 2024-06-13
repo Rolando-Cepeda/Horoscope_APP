@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="wrap_content"
+    android:padding="50dp"
+    android:background="#673AB7">
 
     <ImageView
         android:id="@+id/logoImageView"
@@ -23,13 +25,15 @@
             android:layout_height="wrap_content"
             android:text="Horoscope name"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#FFF"/>
 
         <TextView
             android:id="@+id/descTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Horoscope description"
+            android:textColor="#FFF"
             android:textSize="20sp"/>
     </LinearLayout>
 

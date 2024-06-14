@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.settings -> {
+            R.id.menu_search -> {
                 Log.i("MENU", "He hecho click en el")
                 true
             }

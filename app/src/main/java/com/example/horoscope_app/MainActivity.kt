@@ -3,8 +3,12 @@ package com.example.horoscope_app
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +40,37 @@ class MainActivity : AppCompatActivity() {
         //recyclerView.layoutManager = GridLayoutManager(this, 2)
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+
+        val searchViewItem = menu.findItem(R.id.menu_search)
+        val searchView = searchViewItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                horoscopeList = HoroscopeProvider.findAll()
+                return true
+            }
+        })
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settings -> {
+                Log.i("MENU", "He hecho click en el")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     // Esto nos llevará al la pantalla DEATIL a través del INTENT, en donde le pasaremos ésta clase y la
     // clase DetailActivity
     fun navigateToDetail(horoscope: Horoscope) {

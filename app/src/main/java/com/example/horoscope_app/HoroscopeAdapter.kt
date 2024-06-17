@@ -1,5 +1,8 @@
 package com.example.horoscope_app
 
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class HoroscopeAdapter(private var dataSet: List<Horoscope>, private val onItemClickListener: (Int) -> Unit) :
     RecyclerView.Adapter<HoroscopeViewHolder>() {
 
+    private var highlightText: String? = null
     // Este método se llama para crear nuevas celdas,
     // y se crear las justas para mostrar en pantalla,
     // Ya que intentará reciclar las que no se vean
@@ -30,6 +34,9 @@ class HoroscopeAdapter(private var dataSet: List<Horoscope>, private val onItemC
     override fun onBindViewHolder(holder: HoroscopeViewHolder, position: Int) {
         val horoscope = dataSet[position]
         holder.render(horoscope)
+        if (highlightText != null) {
+            holder.highlight(highlightText!!)
+        }
         holder.itemView.setOnClickListener {
             onItemClickListener(position)
         }
@@ -37,15 +44,20 @@ class HoroscopeAdapter(private var dataSet: List<Horoscope>, private val onItemC
 
     // Este método sirve para actualizar los datos
     fun updateData (newDataSet: List<Horoscope>) {
+        updateData(newDataSet, null)
+    }
+
+    fun updateData(newDataSet: List<Horoscope>, highlight: String?) {
+        this.highlightText = highlight
         dataSet = newDataSet
         notifyDataSetChanged()
     }
 }
 
 class HoroscopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val nameTextView: TextView
-    val descTextView: TextView
-    val logoImageView: ImageView
+    private val nameTextView: TextView
+    private val descTextView: TextView
+    private val logoImageView: ImageView
 
 
     init {
@@ -59,4 +71,23 @@ class HoroscopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         descTextView.setText(horoscope.description)
         logoImageView.setImageResource(horoscope.logo)
     }
+
+    // Subraya el texto que coincide con la busqueda
+    fun highlight(text: String) {
+        try {
+            val highlighted = nameTextView.text.toString().highlight(text)
+            nameTextView.text = highlighted
+        } catch (e: Exception) { }
+        try {
+            val highlighted = descTextView.text.toString().highlight(text)
+            descTextView.text = highlighted
+        } catch (e: Exception) { }
+    }
+}
+
+fun String.highlight(text: String) : SpannableString {
+    val str = SpannableString(this)
+    val startIndex = str.indexOf(text, 0, true)
+    str.setSpan(BackgroundColorSpan(Color.CYAN), startIndex, startIndex + text.length, 0)
+    return str
 }

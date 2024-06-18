@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.horoscope_app.data.Horoscope
 import com.example.horoscope_app.R
+import com.example.horoscope_app.utils.SessionManager
 import com.example.horoscope_app.utils.highlight
 
 class HoroscopeAdapter(private var dataSet: List<Horoscope>, private val onItemClickListener: (Int) -> Unit) :
@@ -58,17 +59,26 @@ class HoroscopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val nameTextView: TextView
     private val descTextView: TextView
     private val logoImageView: ImageView
+    private val favoriteImageView: ImageView
 
     init {
         nameTextView = view.findViewById(R.id.nameTextView)
         descTextView = view.findViewById(R.id.descTextView)
         logoImageView = view.findViewById(R.id.logoImageView)
+        favoriteImageView = view.findViewById(R.id.favoriteImageView)
     }
 
     fun render(horoscope: Horoscope) {
         nameTextView.setText(horoscope.name)
         descTextView.setText(horoscope.description)
         logoImageView.setImageResource(horoscope.logo)
+        val context = itemView.context
+        var isFavorite = SessionManager(context).isFavorite(horoscope.id)
+        if (isFavorite) {
+            favoriteImageView.visibility = View.VISIBLE
+        } else {
+            favoriteImageView.visibility = View.GONE
+        }
     }
 
     // Subraya el texto que coincide con la busqueda

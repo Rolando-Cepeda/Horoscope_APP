@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume(){
+        super.onResume()
+        adapter.updateData(horoscopeList)
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_activity_main, menu)
 

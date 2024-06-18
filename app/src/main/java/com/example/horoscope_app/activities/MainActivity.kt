@@ -1,14 +1,16 @@
-package com.example.horoscope_app
+package com.example.horoscope_app.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.horoscope_app.data.Horoscope
+import com.example.horoscope_app.adapters.HoroscopeAdapter
+import com.example.horoscope_app.data.HoroscopeProvider
+import com.example.horoscope_app.R
 
 class MainActivity : AppCompatActivity() {
 
